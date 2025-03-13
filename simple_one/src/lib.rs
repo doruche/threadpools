@@ -37,7 +37,7 @@ impl Worker {
         let thread = thread::spawn(move || loop {
             let job = {
                 let mut pool_jobs = pool_jobs.lock().expect("mutex poisoned.");
-                if !pool_alive.load(atomic::Ordering::Relaxed)
+                if !pool_alive.load(atomic::Ordering::Acquire)
                 && pool_jobs.is_empty() {
                     break;
                 }
@@ -89,7 +89,7 @@ impl ThreadPool {
 
 impl Drop for ThreadPool {
     fn drop(&mut self) {
-        self.executing.store(false, atomic::Ordering::Relaxed);
+        self.executing.store(false, atomic::Ordering::Release);
 
         let mut etask = vec![];
         loop {

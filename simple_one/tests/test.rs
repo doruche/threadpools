@@ -34,7 +34,6 @@ fn test_thread_pool_concurrent_tasks() {
         });
     }
     pool.terminate();
-    thread::sleep(Duration::from_millis(100)); // 等待所有任务执行完成
     assert_eq!(counter.load(Ordering::SeqCst), 10);
 }
 
