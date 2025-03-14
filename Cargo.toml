@@ -3,5 +3,4 @@ resolver = "3"
 members = [
     "simple_one",
     "somewhat_complex_one",
-    "tests",
 ]

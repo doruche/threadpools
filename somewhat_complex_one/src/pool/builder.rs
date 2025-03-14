@@ -12,7 +12,7 @@ pub struct ThreadPoolBuilder {
 }
 
 impl ThreadPoolBuilder {
-    pub fn new() -> Self {
+    pub(super) fn new() -> Self {
         Self {
             size: DEFAULT_POOL_SIZE,
             scheduler: None,
@@ -43,7 +43,7 @@ impl ThreadPoolBuilder {
             self.scheduler = Some(Arc::new(FifoScheduler::new()));
         }
 
-        let mut workers = Vec::with_capacity(self.size + 7);
+        let mut workers = Vec::with_capacity(self.size);
         (0..self.size).for_each(|id| workers.push(Worker::new(id, self.scheduler.as_ref().unwrap().clone())));
 
         Ok(ThreadPool {
